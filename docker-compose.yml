@@ -1,13 +1,12 @@
 version: "3.8"
 
 networks:
-  queue_net:
+  traefik_traefik_public:
     external: true
 
 services:
-  node-app:
+  node:
     build:
-      #dockerfile: ./docker/node/Dockerfile
       context: .
     ports:
       - "3000:3000"
@@ -15,4 +14,14 @@ services:
       - .:/app
     command: sh -c "npm run start:dev"
     networks:
-      - queue_net
+      - traefik_traefik_public
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_traefik_public"
+      - "traefik.http.routers.node.rule=Host(`node.localtest.me`)"
+      - "traefik.http.routers.node.entrypoints=https"
+      - "traefik.http.routers.node.tls.certresolver=main"
+      # - "traefik.http.routers.whoami.middlewares=traefik-forward-auth"
+      # - "traefik.http.routers.whoami.middlewares=jwt-decode"
+      - "traefik.http.routers.node.middlewares=secured"
+      - "traefik.http.middlewares.secured.chain.middlewares=traefik-forward-auth,jwt-decode"
