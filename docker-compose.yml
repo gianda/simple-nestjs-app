@@ -1,18 +1,19 @@
 version: "3.8"
 
 networks:
-  queue_net:
-    external: true
+  network:
+    name: queue_net
+    driver: bridge
 
 services:
-  node-app:
+  nestjs-app:
+    container_name: nestjs-app
     build:
-      #dockerfile: ./docker/node/Dockerfile
       context: .
     ports:
       - "3000:3000"
     volumes:
       - .:/app
-    command: sh -c "npm run start:dev"
+    command: sh -c "yarn install && yarn start:dev"
     networks:
-      - queue_net
+      - network
