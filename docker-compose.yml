@@ -9,4 +9,4 @@ services:
       - "3000:3000"
     volumes:
       - .:/app
-    command: sh -c "yarn start:dev"
+    command: sh -c "yarn install && yarn start:dev"
