@@ -397,3 +397,8 @@ Temporary Items
 .env
 .env.*
 dist
+
+.env*
+.flaskenv*
+!.env.project
+!.env.vault
