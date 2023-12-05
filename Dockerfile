@@ -1,8 +1,7 @@
-FROM node:16-alpine3.14
+FROM node:20-alpine3.17
 
 WORKDIR /app
 
 COPY ["package.json", "yarn.lock", "/app/"]
 
-RUN yarn global add @nestjs/cli
-
+RUN yarn install && yarn global add @nestjs/cli
